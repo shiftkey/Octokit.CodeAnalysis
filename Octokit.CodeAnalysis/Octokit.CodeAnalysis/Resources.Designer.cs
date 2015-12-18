@@ -62,29 +62,56 @@ namespace Octokit.CodeAnalysis {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The analyzer has verified the `uri` defined in the method does not match the `uri` defined in the [Endpoint] attribute..
+        /// </summary>
+        internal static string EndpointMismatchAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("EndpointMismatchAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; declares it consumes &apos;{1}&apos; but actually uses &apos;{2}&apos;.
+        /// </summary>
+        internal static string EndpointMismatchAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("EndpointMismatchAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implemented endpoint does not match declared endpoint.
+        /// </summary>
+        internal static string EndpointMismatchAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("EndpointMismatchAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auditable client methods should assign the `uri` in the method, so analyzers can verify it matches the documented endpoint..
         /// </summary>
-        internal static string AnalyzerDescription {
+        internal static string UnableToVerifyEndpointAnalyzerDescription {
             get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
+                return ResourceManager.GetString("UnableToVerifyEndpointAnalyzerDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Method &apos;{0}&apos; does not assign a local `uri` to audit..
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string UnableToVerifyEndpointAnalyzerMessageFormat {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("UnableToVerifyEndpointAnalyzerMessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Unable to audit client method.
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string UnableToVerifyEndpointAnalyzerTitle {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("UnableToVerifyEndpointAnalyzerTitle", resourceCulture);
             }
         }
     }

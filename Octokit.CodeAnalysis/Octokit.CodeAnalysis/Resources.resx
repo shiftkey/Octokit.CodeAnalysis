@@ -117,15 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
+  <data name="EndpointMismatchAnalyzerDescription" xml:space="preserve">
+    <value>The analyzer has verified the `uri` defined in the method does not match the `uri` defined in the [Endpoint] attribute.</value>
+    <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+  <data name="EndpointMismatchAnalyzerMessageFormat" xml:space="preserve">
+    <value>Method '{0}' declares it consumes '{1}' but actually uses '{2}'</value>
+    <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+  <data name="EndpointMismatchAnalyzerTitle" xml:space="preserve">
+    <value>Implemented endpoint does not match declared endpoint</value>
+    <comment>The title of the diagnostic.</comment>
+  </data>
+  <data name="UnableToVerifyEndpointAnalyzerDescription" xml:space="preserve">
     <value>Auditable client methods should assign the `uri` in the method, so analyzers can verify it matches the documented endpoint.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
+  <data name="UnableToVerifyEndpointAnalyzerMessageFormat" xml:space="preserve">
     <value>Method '{0}' does not assign a local `uri` to audit.</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
+  <data name="UnableToVerifyEndpointAnalyzerTitle" xml:space="preserve">
     <value>Unable to audit client method</value>
     <comment>The title of the diagnostic.</comment>
   </data>
