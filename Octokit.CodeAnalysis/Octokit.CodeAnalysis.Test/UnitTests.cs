@@ -76,19 +76,17 @@ namespace Octokit.CodeAnalysis.Test
 
             var expected = new DiagnosticResult
             {
-                Id = "OctokitCodeAnalysis",
-                Message = String.Format("Type name '{0}' contains lowercase letters", "TypeName"),
+                Id = "Octokit.CodeAnalysis",
+                Message = String.Format("Method '{0}' does not assign a local `uri` to audit.", "GetAllForRepository"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
-                            new DiagnosticResultLocation("Test0.cs", 11, 15)
+                            new DiagnosticResultLocation("Test0.cs", 14, 48)
                         }
             };
 
             VerifyCSharpDiagnostic(test, expected);
         }
-
-
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
