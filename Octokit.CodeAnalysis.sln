@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octokit.CodeAnalysis", "Octokit.CodeAnalysis\Octokit.CodeAnalysis\Octokit.CodeAnalysis.csproj", "{3A78DC9C-62E2-4B9D-A87F-8414F2C74192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octokit.CodeAnalysis.Test", "Octokit.CodeAnalysis\Octokit.CodeAnalysis.Test\Octokit.CodeAnalysis.Test.csproj", "{C1B5C04E-D78A-48C5-9919-C57C4537B79C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A78DC9C-62E2-4B9D-A87F-8414F2C74192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A78DC9C-62E2-4B9D-A87F-8414F2C74192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A78DC9C-62E2-4B9D-A87F-8414F2C74192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A78DC9C-62E2-4B9D-A87F-8414F2C74192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1B5C04E-D78A-48C5-9919-C57C4537B79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B5C04E-D78A-48C5-9919-C57C4537B79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B5C04E-D78A-48C5-9919-C57C4537B79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1B5C04E-D78A-48C5-9919-C57C4537B79C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
