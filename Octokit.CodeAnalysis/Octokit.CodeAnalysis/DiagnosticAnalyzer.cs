@@ -49,7 +49,7 @@ namespace Octokit.CodeAnalysis
             context.RegisterCodeBlockAction(AnalyzeCodeBlock);
         }
 
-        private void AnalyzeCodeBlock(CodeBlockAnalysisContext codeBlockContext)
+        static void AnalyzeCodeBlock(CodeBlockAnalysisContext codeBlockContext)
         {
             // We only care about method bodies.
             if (codeBlockContext.OwningSymbol.Kind != SymbolKind.Method)
