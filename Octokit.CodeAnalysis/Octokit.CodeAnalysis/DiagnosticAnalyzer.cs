@@ -179,17 +179,14 @@ namespace Octokit.CodeAnalysis
                 var uriVariable = statement.Declaration.Variables
                     .FirstOrDefault(v => v.Identifier.ValueText == "uri");
 
-                var formattedUri = uriVariable?.Initializer.Value as InvocationExpressionSyntax;
+                var uri = GetUriFromFormatUriExtensionMethod(uriVariable?.Initializer.Value);
 
-                var formatMethod = formattedUri?.Expression as MemberAccessExpressionSyntax;
-
-                var sourceUri = formatMethod?.Expression as LiteralExpressionSyntax;
-                if (sourceUri == null)
+                if (uri == null)
                 {
                     continue;
                 }
 
-                return sourceUri.Token.Text;
+                return uri;
             }
 
             var returnStatement = codeBlock.Statements.Where(s => s.Kind() == SyntaxKind.ReturnStatement)
@@ -204,7 +201,12 @@ namespace Octokit.CodeAnalysis
                 return null;
             }
 
-            var formattedUri2 = firstArgument.Expression as InvocationExpressionSyntax;
+            return GetUriFromFormatUriExtensionMethod(firstArgument.Expression);
+        }
+
+        static string GetUriFromFormatUriExtensionMethod(ExpressionSyntax expression)
+        {
+            var formattedUri2 = expression as InvocationExpressionSyntax;
 
             var formatMethod2 = formattedUri2?.Expression as MemberAccessExpressionSyntax;
 
