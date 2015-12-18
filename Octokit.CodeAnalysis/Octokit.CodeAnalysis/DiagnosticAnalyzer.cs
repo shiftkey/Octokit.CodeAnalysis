@@ -13,15 +13,36 @@ namespace Octokit.CodeAnalysis
     {
         public const string DiagnosticId = "Octokit.CodeAnalysis";
 
-        // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.AnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-        private const string Category = "Naming";
+        static readonly LocalizableString UnableToVerifyEndpointTitle = new LocalizableResourceString(nameof(Resources.UnableToVerifyEndpointAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+        static readonly LocalizableString UnableToVerifyEndpointMessageFormat = new LocalizableResourceString(nameof(Resources.UnableToVerifyEndpointAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+        static readonly LocalizableString UnableToVerifyEndpointDescription = new LocalizableResourceString(nameof(Resources.UnableToVerifyEndpointAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
 
-        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+        // TODO: this probably isn't the right category for this sort of warning
+        const string Category = "Naming";
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+        static readonly DiagnosticDescriptor unableToVerifyEndpointRule = new DiagnosticDescriptor(
+            DiagnosticId,
+            UnableToVerifyEndpointTitle,
+            UnableToVerifyEndpointMessageFormat,
+            Category,
+            DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: UnableToVerifyEndpointDescription);
+
+        static readonly LocalizableString EndpointMismatchTitle = new LocalizableResourceString(nameof(Resources.EndpointMismatchAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+        static readonly LocalizableString EndpointMismatchMessageFormat = new LocalizableResourceString(nameof(Resources.EndpointMismatchAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+        static readonly LocalizableString EndpointMismatchDescription = new LocalizableResourceString(nameof(Resources.EndpointMismatchAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
+
+        static readonly DiagnosticDescriptor endpointMismatchRule = new DiagnosticDescriptor(
+            DiagnosticId,
+            EndpointMismatchTitle,
+            EndpointMismatchMessageFormat,
+            Category,
+            DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: EndpointMismatchDescription);
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(unableToVerifyEndpointRule);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -54,7 +75,7 @@ namespace Octokit.CodeAnalysis
                 var tree = block.SyntaxTree;
                 var location = method.Locations.First(l => tree.Equals(l.SourceTree));
 
-                var diagnostic = Diagnostic.Create(Rule, location, method.Name);
+                var diagnostic = Diagnostic.Create(unableToVerifyEndpointRule, location, method.Name);
 
                 // we should raise an issue here
                 codeBlockContext.ReportDiagnostic(diagnostic);
@@ -79,7 +100,7 @@ namespace Octokit.CodeAnalysis
                 var tree = block.SyntaxTree;
                 var location = method.Locations.First(l => tree.Equals(l.SourceTree));
 
-                var diagnostic = Diagnostic.Create(Rule, location, method.Name);
+                var diagnostic = Diagnostic.Create(endpointMismatchRule, location, method.Name, attributeUrl, inlineUrl);
 
                 // we should raise an issue here
                 codeBlockContext.ReportDiagnostic(diagnostic);
