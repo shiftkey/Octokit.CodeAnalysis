@@ -192,7 +192,25 @@ namespace Octokit.CodeAnalysis
                 return sourceUri.Token.Text;
             }
 
-            return null;
+            var returnStatement = codeBlock.Statements.Where(s => s.Kind() == SyntaxKind.ReturnStatement)
+                .Cast<ReturnStatementSyntax>()
+                .FirstOrDefault();
+
+            var invocation = returnStatement?.Expression as InvocationExpressionSyntax;
+
+            var firstArgument = invocation?.ArgumentList.Arguments.FirstOrDefault();
+            if (firstArgument == null)
+            {
+                return null;
+            }
+
+            var formattedUri2 = firstArgument.Expression as InvocationExpressionSyntax;
+
+            var formatMethod2 = formattedUri2?.Expression as MemberAccessExpressionSyntax;
+
+            var sourceUri2 = formatMethod2?.Expression as LiteralExpressionSyntax;
+
+            return sourceUri2?.Token.Text;
         }
     }
 }
