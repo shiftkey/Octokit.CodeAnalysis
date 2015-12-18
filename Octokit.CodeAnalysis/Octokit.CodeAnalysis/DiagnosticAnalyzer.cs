@@ -100,7 +100,7 @@ namespace Octokit.CodeAnalysis
                 var tree = block.SyntaxTree;
                 var location = method.Locations.First(l => tree.Equals(l.SourceTree));
 
-                var diagnostic = Diagnostic.Create(endpointMismatchRule, location, method.Name, attributeUrl, inlineUrl);
+                var diagnostic = Diagnostic.Create(endpointMismatchRule, location, method.Name, attributeUrl.Replace("\"", ""), inlineUrl.Replace("\"", ""));
 
                 // we should raise an issue here
                 codeBlockContext.ReportDiagnostic(diagnostic);
