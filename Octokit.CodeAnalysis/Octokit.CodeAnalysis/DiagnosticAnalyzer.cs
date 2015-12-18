@@ -67,25 +67,22 @@ namespace Octokit.CodeAnalysis
                 return;
             }
 
+            // now we interrogate the method body for the Uri it passes
+            // to the connection
             var inlineUrl = ResolveDefinedUrlInMethod(codeBlockContext);
             if (inlineUrl == null)
             {
-                var method = (IMethodSymbol)codeBlockContext.OwningSymbol;
-                var block = (BlockSyntax)codeBlockContext.CodeBlock.ChildNodes().First(n => n.Kind() == SyntaxKind.Block);
-                var tree = block.SyntaxTree;
-                var location = method.Locations.First(l => tree.Equals(l.SourceTree));
-
-                var diagnostic = Diagnostic.Create(unableToVerifyEndpointRule, location, method.Name);
-
-                // we should raise an issue here
-                codeBlockContext.ReportDiagnostic(diagnostic);
+                // it isn't defined locally -> raise a warning
+                ReportNotFoundDiagnostic(codeBlockContext);
                 return;
             }
-            
+
             var formattedAttributeUrl = attributeUrl;
             var valuesDefined = Regex.Matches(formattedAttributeUrl, ":[a-z]*");
 
-            // reverse through the found results and manipulate the string
+            // reverse through the found Regex results and manipulate the string
+            // so that it's consumable by string.Format i.e the format we expect
+            // the local variable to be in
             for (var i = valuesDefined.Count - 1; i >= 0; i--)
             {
                 var replace = "{" + i + "}";
@@ -95,16 +92,39 @@ namespace Octokit.CodeAnalysis
 
             if (formattedAttributeUrl != inlineUrl)
             {
-                var method = (IMethodSymbol)codeBlockContext.OwningSymbol;
-                var block = (BlockSyntax)codeBlockContext.CodeBlock.ChildNodes().First(n => n.Kind() == SyntaxKind.Block);
-                var tree = block.SyntaxTree;
-                var location = method.Locations.First(l => tree.Equals(l.SourceTree));
-
-                var diagnostic = Diagnostic.Create(endpointMismatchRule, location, method.Name, attributeUrl.Replace("\"", ""), inlineUrl.Replace("\"", ""));
-
-                // we should raise an issue here
-                codeBlockContext.ReportDiagnostic(diagnostic);
+                // there's a mismatch -> raise a warning
+                ReportMismatchDiagnostic(codeBlockContext, attributeUrl, inlineUrl);
             }
+        }
+
+        static void ReportNotFoundDiagnostic(CodeBlockAnalysisContext codeBlockContext)
+        {
+            var method = (IMethodSymbol) codeBlockContext.OwningSymbol;
+            var location = GetLocation(codeBlockContext, method);
+
+            var diagnostic = Diagnostic.Create(unableToVerifyEndpointRule, location, method.Name);
+
+            codeBlockContext.ReportDiagnostic(diagnostic);
+        }
+
+        static Location GetLocation(CodeBlockAnalysisContext codeBlockContext, IMethodSymbol method)
+        {
+            var block = (BlockSyntax) codeBlockContext.CodeBlock.ChildNodes().First(n => n.Kind() == SyntaxKind.Block);
+            var tree = block.SyntaxTree;
+            var location = method.Locations.First(l => tree.Equals(l.SourceTree));
+            return location;
+        }
+
+        static void ReportMismatchDiagnostic(CodeBlockAnalysisContext codeBlockContext, string attributeUrl, string inlineUrl)
+        {
+            var method = (IMethodSymbol) codeBlockContext.OwningSymbol;
+            var location = GetLocation(codeBlockContext, method);
+
+            var diagnostic = Diagnostic.Create(endpointMismatchRule, location, method.Name, attributeUrl.Replace("\"", ""),
+                inlineUrl.Replace("\"", ""));
+
+            // we should raise an issue here
+            codeBlockContext.ReportDiagnostic(diagnostic);
         }
 
         static string ResolveUrlFromAttribute(CodeBlockAnalysisContext codeBlockContext)
